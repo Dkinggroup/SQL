@@ -20,6 +20,7 @@ CREATE TABLE Customer(
 CREATE TABLE Bill(
 	ID_Bill SERIAL PRIMARY KEY, 
 	Status_Bill VARCHAR(20) NOT NULL,
+	Purchase_Status VARCHAR(20) NOT NULL,
 	Date_Order DATE NOT NULL,
 	Time_Order TIME NOT NULL,
 	ID_Customer INT NOT NULL,
