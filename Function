@@ -76,13 +76,16 @@ $$ LANGUAGE plpgsql;
 SELECT AddShiftsForDay('2024-06-07');
 
 ## Thêm customer 
-CREATE OR REPLACE FUNCTION AddCustomer(
+CREATE OR REPLACE FUNCTION Add_Customer(
     p_Name_Customer VARCHAR(50),
-    p_Phone VARCHAR(16)
-) RETURNS VOID AS $$
+    p_Phone VARCHAR(16),
+    p_Status BOOLEAN
+)
+RETURNS VOID AS 
+$$
 BEGIN
-        INSERT INTO Customer (Name_Customer, Phone)
-        VALUES (p_Name_Customer, p_Phone);
+    INSERT INTO Customer (Name_Customer, Phone, Status)
+    VALUES (p_Name_Customer, p_Phone, p_Status); -- Sử dụng giá trị được truyền vào tham số
 END;
 $$ LANGUAGE plpgsql;
 
