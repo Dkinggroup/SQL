@@ -81,17 +81,10 @@ CREATE OR REPLACE FUNCTION AddCustomer(
     p_Phone VARCHAR(16)
 ) RETURNS VOID AS $$
 BEGIN
-    -- Kiểm tra xem số điện thoại có tồn tại hay không
-    IF EXISTS (SELECT 1 FROM Customer WHERE Phone = p_Phone) THEN
-        RAISE EXCEPTION 'Phone number already exists';
-    ELSE
         INSERT INTO Customer (Name_Customer, Phone)
         VALUES (p_Name_Customer, p_Phone);
-    END IF;
 END;
 $$ LANGUAGE plpgsql;
-
-SELECT AddCustomer('John Doe', '1234567890');
 
 ## Tạo Account nếu có nhu cầu 
 CREATE OR REPLACE FUNCTION AddAccountIfNotExists(
