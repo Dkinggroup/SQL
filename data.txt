@@ -25,26 +25,26 @@ INSERT INTO Food (Name_Food, Price, ID_Category) VALUES ('Greek Salad', 6.5, 5);
 INSERT INTO Food (Name_Food, Price, ID_Category) VALUES ('Garden Salad', 6.0, 5);
 INSERT INTO Food (Name_Food, Price, ID_Category) VALUES ('Caprese Salad', 8.0, 5);
 
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (1, 'John Doe', '123456789', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (2, 'Jane Smith', '987654321', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (3, 'Alice Johnson', '555123456', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (4, 'Bob Brown', '444987654', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (5, 'Charlie White', '333222111', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (6, 'Emily Davis', '111222333', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (7, 'Frank Harris', '222333444', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (8, 'Grace Lee', '555666777', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (9, 'Henry King', '888999000', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (10, 'Ivy Martinez', '000999888', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (11, 'Jack Turner', '777666555', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (12, 'Kara Evans', '444555666', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (13, 'Liam Wilson', '333444555', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (14, 'Mia Scott', '222111000', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (15, 'Noah Young', '111000999', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (16, 'Olivia Green', '999888777', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (17, 'Paul Brown', '666555444', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (18, 'Quincy Clark', '555444333', 'to go');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (19, 'Rachel Hill', '444333222', 'for here');
-INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (20, 'Steve Adams', '333222112', 'to go');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (1, 'John Doe', '123456789', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (2, 'Jane Smith', '987654321', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (3, 'Alice Johnson', '555123456', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (4, 'Bob Brown', '444987654', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (5, 'Charlie White', '333222111', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (6, 'Emily Davis', '111222333', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (7, 'Frank Harris', '222333444', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (8, 'Grace Lee', '555666777', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (9, 'Henry King', '888999000', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (10, 'Ivy Martinez', '000999888', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (11, 'Jack Turner', '777666555', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (12, 'Kara Evans', '444555666', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (13, 'Liam Wilson', '333444555', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (14, 'Mia Scott', '222111000', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (15, 'Noah Young', '111000999', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (16, 'Olivia Green', '999888777', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (17, 'Paul Brown', '666555444', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (18, 'Quincy Clark', '555444333', 'false');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (19, 'Rachel Hill', '444333222', 'true');
+INSERT INTO Customer (ID_Customer, Name_Customer, Phone, status) VALUES (20, 'Steve Adams', '333222112', 'false');
 
 
 -------
@@ -179,5 +179,3 @@ INSERT INTO Table_ (status, ID_Bill) VALUES (TRUE, 17);
 INSERT INTO Table_ (status, ID_Bill) VALUES (FALSE, 18);
 INSERT INTO Table_ (status, ID_Bill) VALUES (TRUE, 19);
 INSERT INTO Table_ (status, ID_Bill) VALUES (FALSE, 20);
-
-
