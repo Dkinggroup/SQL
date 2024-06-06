@@ -1,0 +1,15 @@
+--Tạo trigger tự động thêm hóa đơn mới vào bảng Bill
+CREATE OR REPLACE FUNCTION Add_Bill()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO Bill (Date_Order, Time_Order, ID_Customer)
+    VALUES (CURRENT_DATE, CURRENT_TIME, NEW.ID_Customer);
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER Trigger_AddBillForNewCustomer
+AFTER INSERT ON Customer
+FOR EACH ROW
+EXECUTE FUNCTION Add_Bill();
