@@ -105,4 +105,31 @@ $$ LANGUAGE plpgsql;
 
 SELECT AddAccountIfNotExists('1234567890', 'New_Account');
 
+## Add Bill Line
+
+CREATE OR REPLACE FUNCTION add_bill_line(
+    p_Items INT[][],
+    p_Item_Count INT
+)
+RETURNS VOID AS $$
+DECLARE
+    idd INT;
+    i INT;
+BEGIN
+    SELECT MAX(ID_Bill) INTO idd FROM Bill;
+    -- Khai báo cursor để lặp qua các hàng của bảng Bill và lấy ID_Bill lớn nhất
+    FOR idd IN SELECT MAX(ID_Bill) FROM bill LOOP
+        -- Thêm các món ăn vào bảng bill_line với ID_Bill mới nhất
+        FOR i IN 1..p_Item_Count LOOP
+            INSERT INTO bill_line (ID_Bill, ID_Food, Quantity) 
+            VALUES (idd, p_Items[i][1], p_Items[i][2]);
+        END LOOP;
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT add_bill_line(
+    ARRAY[[1, 2], [3, 4]],  -- Mảng các món ăn và số lượng tương ứng
+    2                        -- Số lượng món ăn trong mảng
+);
 
