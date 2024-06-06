@@ -1,0 +1,112 @@
+## Thêm category
+CREATE OR REPLACE FUNCTION AddCategory(
+    p_Name_Category VARCHAR(100)
+) RETURNS VOID AS $$
+BEGIN
+    -- Kiểm tra xem Name_Category có tồn tại hay không
+    IF EXISTS (SELECT 1 FROM Category WHERE Name_Category = p_Name_Category) THEN
+        RAISE EXCEPTION 'Category name already exists';
+    ELSE
+        INSERT INTO Category (Name_Category)
+        VALUES (p_Name_Category);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddCategory('Beverages');
+
+## Thêm food
+CREATE OR REPLACE FUNCTION AddFood(
+    p_Name_Food VARCHAR(100),
+    p_Price REAL,
+    p_ID_Category INT
+) RETURNS VOID AS $$
+BEGIN
+    -- Kiểm tra xem ID_Category có tồn tại hay không
+    IF NOT EXISTS (SELECT 1 FROM Category WHERE ID_Category = p_ID_Category) THEN
+        RAISE EXCEPTION 'Category ID does not exist';
+    ELSE
+        INSERT INTO Food (Name_Food, Price, ID_Category)
+        VALUES (p_Name_Food, p_Price, p_ID_Category);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddFood('Sushi', 15.99, 1);
+
+## Thêm nhân viên 
+CREATE OR REPLACE FUNCTION AddEmployee(
+    p_Name_Employee VARCHAR(50),
+    p_Phone VARCHAR(16),
+    p_Email VARCHAR(50),
+    p_CCCD VARCHAR(50)
+) RETURNS VOID AS $$
+BEGIN
+    -- Kiểm tra xem CCCD có tồn tại hay không
+    IF EXISTS (SELECT 1 FROM Employee WHERE CCCD = p_CCCD) THEN
+        RAISE EXCEPTION 'CCCD already exists';
+    ELSE
+        INSERT INTO Employee (Name_Employee, Phone, Email, CCCD)
+        VALUES (p_Name_Employee, p_Phone, p_Email, p_CCCD);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddEmployee('Alice', '1112223333', 'alice@example.com', 'CCCD123456');
+
+## Thêm ca vào bảng Shift
+CREATE OR REPLACE FUNCTION AddShiftsForDay(
+    p_Date_Shift DATE
+) RETURNS VOID AS $$
+BEGIN
+    -- Thêm ca làm việc lúc 7h
+    INSERT INTO Shift (Date_Shift, Time_Shift)
+    VALUES (p_Date_Shift, '07:00:00');
+
+    -- Thêm ca làm việc lúc 12h
+    INSERT INTO Shift (Date_Shift, Time_Shift)
+    VALUES (p_Date_Shift, '12:00:00');
+
+    -- Thêm ca làm việc lúc 17h
+    INSERT INTO Shift (Date_Shift, Time_Shift)
+    VALUES (p_Date_Shift, '17:00:00');
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddShiftsForDay('2024-06-07');
+
+## Thêm customer 
+CREATE OR REPLACE FUNCTION AddCustomer(
+    p_Name_Customer VARCHAR(50),
+    p_Phone VARCHAR(16)
+) RETURNS VOID AS $$
+BEGIN
+    -- Kiểm tra xem số điện thoại có tồn tại hay không
+    IF EXISTS (SELECT 1 FROM Customer WHERE Phone = p_Phone) THEN
+        RAISE EXCEPTION 'Phone number already exists';
+    ELSE
+        INSERT INTO Customer (Name_Customer, Phone)
+        VALUES (p_Name_Customer, p_Phone);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddCustomer('John Doe', '1234567890');
+
+## Tạo Account nếu có nhu cầu 
+CREATE OR REPLACE FUNCTION AddAccountIfNotExists(
+    p_Customer_Phone VARCHAR(16),
+    p_Name_Account VARCHAR(100)
+) RETURNS VOID AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM Account WHERE Phone = p_Customer_Phone) THEN
+        -- Nếu không tồn tại, thêm tài khoản mới
+        INSERT INTO Account (Name_Account, Phone)
+        VALUES (p_Name_Account, p_Customer_Phone);
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT AddAccountIfNotExists('1234567890', 'New_Account');
+
+
