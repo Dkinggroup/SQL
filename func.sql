@@ -72,8 +72,10 @@ $$ language plpgsql;
 DROP FUNCTION top10_food()
 
 select * from top10_food()
+
 ----------------------------------------------------------------------------------------------
---tinh truoc gia tien cho khach hang(chua co ap dung discount)
+--tinh truoc gia tien cho khach hang(ap dung discout khi co tai khoan)
+
 create or replace function pre_price(in bill_id_in int)
 returns table (
 	bill_id int,
@@ -82,34 +84,26 @@ returns table (
 begin
 	return query
 	select bl.id_bill as bill_id,
-		   sum(f.price * bl.quantity) as total_price
+	--chia truong hop gia tien
+		round( case 
+		   		when a.score > 3000 then sum(f.price * bl.quantity)*0.80
+  				when a.score > 1050 then sum(f.price * bl.quantity)*0.85
+				when a.score > 600 then sum(f.price * bl.quantity)*0.90
+				when a.score > 300 then sum(f.price * bl.quantity)*0.95
+		  		else sum(f.price * bl.quantity) 
+		   end 
+		   ) as total_price
+	--ket thuc chia gia tien
 	from bill_line bl
 	join food f on bl.id_food = f.id_food
+	join bill b on bl.id_bill = b.id_bill
+	join customer c on b.id_customer = c.id_customer
+	left join account a on c.phone = a.phone
 	where bl.id_bill = bill_id_in
-	group by bl.id_bill;
+	group by bl.id_bill, a.score;
 end;
 $$ language plpgsql;
 
 DROP FUNCTION pre_price(integer)
 
 select * from pre_price(1)
-----------------------------------------------------------------------------------------------
---tinh truoc gia tien cho khach hang(ap dung discout khi co tai khoan)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
