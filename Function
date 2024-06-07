@@ -133,3 +133,32 @@ SELECT add_bill_line(
     2                        -- Số lượng món ăn trong mảng
 );
 
+## Thêm bớt món 
+CREATE OR REPLACE FUNCTION modify_bill_line(
+    p_bill_id INT,
+    p_food_id INT,
+    p_quantity_change INT
+)
+RETURNS VOID AS $$
+DECLARE 
+    tmp_quantity INT;
+BEGIN
+    -- Tính toán số lượng mới sau khi thêm/bớt
+    SELECT Quantity + p_quantity_change INTO tmp_quantity 
+    FROM Bill_Line 
+    WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+
+    -- Cập nhật số lượng mới vào bảng Bill_Line
+    UPDATE Bill_Line
+    SET Quantity = tmp_quantity
+    WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+
+    -- Kiểm tra nếu số lượng mới bằng 0, thì xóa món khỏi hóa đơn
+    IF tmp_quantity = 0 THEN
+        DELETE FROM Bill_Line
+        WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT modify_bill_line(11, 1, -1);
