@@ -143,22 +143,31 @@ RETURNS VOID AS $$
 DECLARE 
     tmp_quantity INT;
 BEGIN
-    -- Tính toán số lượng mới sau khi thêm/bớt
-    SELECT Quantity + p_quantity_change INTO tmp_quantity 
-    FROM Bill_Line 
+    -- Kiểm tra xem món đã tồn tại trong hóa đơn chưa
+    SELECT Quantity INTO tmp_quantity
+    FROM Bill_Line
     WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
 
-    -- Cập nhật số lượng mới vào bảng Bill_Line
-    UPDATE Bill_Line
-    SET Quantity = tmp_quantity
-    WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+    -- Nếu món chưa tồn tại, thêm món vào bảng Bill_Line với số lượng mới
+    IF NOT FOUND THEN
+        INSERT INTO Bill_Line (ID_Bill, ID_Food, Quantity)
+        VALUES (p_bill_id, p_food_id, p_quantity_change);
+    ELSE
+        -- Tính toán số lượng mới sau khi thêm/bớt
+        tmp_quantity := tmp_quantity + p_quantity_change;
 
-    -- Kiểm tra nếu số lượng mới bằng 0, thì xóa món khỏi hóa đơn
-    IF tmp_quantity = 0 THEN
-        DELETE FROM Bill_Line
+        -- Cập nhật số lượng mới vào bảng Bill_Line
+        UPDATE Bill_Line
+        SET Quantity = tmp_quantity
         WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+
+        -- Kiểm tra nếu số lượng mới bằng 0, thì xóa món khỏi hóa đơn
+        IF tmp_quantity = 0 THEN
+            DELETE FROM Bill_Line
+            WHERE ID_Bill = p_bill_id AND ID_Food = p_food_id;
+        END IF;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT modify_bill_line(11, 1, -1);
+SELECT modify_bill_line(11, 1, 1); 
