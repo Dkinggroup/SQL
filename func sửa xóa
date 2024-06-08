@@ -20,6 +20,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+##Delete employee
+
+(ALTER TABLE Bill_Line DROP CONSTRAINT bill_line_id_food_fkey;
+
+ALTER TABLE Bill_Line
+ADD CONSTRAINT bill_line_id_food_fkey
+FOREIGN KEY (ID_Food) REFERENCES Food(ID_Food) ON DELETE SET NULL;)
+-->cái này để đôỉ ràng buộc
+
+CREATE OR REPLACE FUNCTION delete_employee(employee_id INT)
+RETURNS VOID AS $$
+BEGIN
+    DELETE FROM Employee WHERE ID_Employee = employee_id;
+END;
+$$ LANGUAGE plpgsql;
+
 
 ##Thêm 1 ngày vào date shift
 
