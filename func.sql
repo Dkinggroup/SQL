@@ -107,3 +107,27 @@ $$ language plpgsql;
 DROP FUNCTION pre_price(integer)
 
 select * from pre_price(1)
+----------------------------------------------------------------------------------------------
+--rec mon dua tren so thich???? -> top 5 mua nhieu nhat cua khach
+create or replace function top5_food_cus(in cus_phone varchar)
+returns table(
+	food_name varchar(100),
+	total_quan bigint
+)	as $$
+begin
+	return query
+	select f.name_food, sum(bl.quantity) astotal_quan
+	from food f
+	join bill_line bl on f.id_food = bl.id_food
+	join bill b on bl.id_bill = b.id_bill
+	join customer c on b.id_customer = c.id_customer
+	where c.phone = cus_phone
+	group by f.name_food
+	order by sum(bl.quantity) desc
+	limit 5;
+end;
+$$ language plpgsql;
+
+DROP FUNCTION top5_food_cus(varchar)
+
+select * from top5_food_cus('123456789')
