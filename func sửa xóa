@@ -1,70 +1,3 @@
-##Update Category
-
-CREATE OR REPLACE FUNCTION update_category(category_id INT, new_name_category VARCHAR)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Category
-    SET Name_Category = new_name_category
-    WHERE ID_Category = category_id;
-END;
-$$ LANGUAGE plpgsql;
-
-##Update Food
-
-CREATE OR REPLACE FUNCTION update_food(food_id INT, new_name_food VARCHAR, new_price REAL, new_id_category INT)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Food
-    SET Name_Food = new_name_food, Price = new_price, ID_Category = new_id_category
-    WHERE ID_Food = food_id;
-END;
-$$ LANGUAGE plpgsql;
-
-##Update customer
-
-CREATE OR REPLACE FUNCTION update_customer(customer_id INT, new_name_customer VARCHAR, new_phone VARCHAR, new_status BOOLEAN)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Customer
-    SET Name_Customer = new_name_customer, Phone = new_phone, status = new_status
-    WHERE ID_Customer = customer_id;
-END;
-$$ LANGUAGE plpgsql;
-
-##Update bill
-
-CREATE OR REPLACE FUNCTION update_bill(bill_id INT, new_status_bill BOOLEAN, new_date_order DATE, new_time_order TIME, new_id_customer INT)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Bill
-    SET Status_Bill = new_status_bill,  Date_Order = new_date_order, Time_Order = new_time_order, ID_Customer = new_id_customer
-    WHERE ID_Bill = bill_id;
-END;
-$$ LANGUAGE plpgsql;
-
-##Update bill line
-
-CREATE OR REPLACE FUNCTION update_bill_line(bill_line_id INT, bill_id INT, new_id_food INT, new_quantity INT)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Bill_Line
-    SET ID_Food = new_id_food, Quantity = new_quantity
-    WHERE ID_Bill = bill_id and ID_Bill_Line = bill_line_id;
-END;
-$$ LANGUAGE plpgsql;
-
-
-##Update employee
-
-CREATE OR REPLACE FUNCTION update_employee(employee_id INT, new_name_employee VARCHAR, new_phone VARCHAR, new_email VARCHAR, new_cccd VARCHAR)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Employee
-    SET Name_Employee = new_name_employee, Phone = new_phone, Email = new_email, CCCD = new_cccd
-    WHERE ID_Employee = id_employee;
-END;
-$$ LANGUAGE plpgsql;
-
 ##Update Shift
 
 CREATE OR REPLACE FUNCTION update_shift(shift_id INT, new_date_shift DATE, new_time_shift TIME)
@@ -87,23 +20,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-##Delete employee
-
-CREATE OR REPLACE FUNCTION delete_employee(employee_id INT)
-RETURNS VOID AS $$
-BEGIN
-    DELETE FROM Employee WHERE ID_Employee = id_employee;
-END;
-$$ LANGUAGE plpgsql;
-
-##Delete food
-
-CREATE OR REPLACE FUNCTION delete_food(food_id INT)
-RETURNS VOID AS $$
-BEGIN
-    DELETE FROM Food WHERE ID_Food = food_id;
-END;
-$$ LANGUAGE plpgsql;
 
 ##Thêm 1 ngày vào date shift
 
