@@ -171,3 +171,20 @@ END;
 $$ LANGUAGE plpgsql;
 
 SELECT modify_bill_line(11, 1, 1); 
+
+## Thêm bàn cho hóa đơn
+
+CREATE OR REPLACE FUNCTION Update_table(ID_TableAdd INT)
+RETURNS VOID AS $$
+DECLARE get_newBillID INT;
+BEGIN
+    SELECT MAX(ID_Bill) INTO get_newBillID FROM Bill;
+
+	
+    UPDATE Table_
+	SET status = true , ID_Bill = get_newBillID
+	WHERE ID_Table = ID_TableAdd AND status = false;
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT Update_table(5);
