@@ -44,6 +44,7 @@ begin
 		join bill_line bl on b.id_bill = bl.id_bill
 		join food f on bl.id_food = f.id_food
 	where a.phone = phonee
+	and b.status_bill = 'true'
 	order by b.date_order;
 end;
 $$ language plpgsql;
@@ -64,6 +65,8 @@ begin
 			sum(bl.quantity)::int as Quantity
 	from bill_line bl
 	join food f on bl.id_food = f.id_food
+	join bill b on bl.id_bill = b.id_bill
+	where b.status_bill = 'true'
 	group by f.name_food
 	order by sum(bl.quantity) desc;	
 end;
@@ -108,7 +111,7 @@ DROP FUNCTION pre_price(integer)
 
 select * from pre_price(1)
 ----------------------------------------------------------------------------------------------
---rec mon dua tren so thich???? -> top 5 mua nhieu nhat cua khach
+--top 5 mua nhieu nhat cua khach
 create or replace function top5_food_cus(in cus_phone varchar)
 returns table(
 	food_name varchar(100),
@@ -122,6 +125,7 @@ begin
 	join bill b on bl.id_bill = b.id_bill
 	join customer c on b.id_customer = c.id_customer
 	where c.phone = cus_phone
+	and b.status_bill = 'true'
 	group by f.name_food
 	order by sum(bl.quantity) desc
 	limit 5;
@@ -131,3 +135,28 @@ $$ language plpgsql;
 DROP FUNCTION top5_food_cus(varchar)
 
 select * from top5_food_cus('123456789')
+
+--Update đã thanh toán
+
+CREATE OR REPLACE FUNCTION cap_nhat_trang_thai_thanh_toan(bill_id INT)
+RETURNS VOID AS $$
+BEGIN
+    UPDATE bill b
+    SET status_bill = 'true'
+    WHERE b.id_bill = bill_id;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP FUNCTION cap_nhat_trang_thai_thanh_toan(integer)
+
+select * from cap_nhat_trang_thai_thanh_toan(2)
+
+
+
+
+
+
+
+
+
+
