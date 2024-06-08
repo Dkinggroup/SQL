@@ -105,5 +105,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+##Thêm 1 ngày vào date shift
+
+CREATE OR REPLACE FUNCTION 1_date_shift()
+RETURNS VOID AS $$
+BEGIN
+    UPDATE Shift
+    SET Date_Shift = Date_Shift + INTERVAL '1 day';
+END;
+$$ LANGUAGE plpgsql;
+
+##
+
+
+
+
 
 
