@@ -53,16 +53,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-##Update Table_
-
-CREATE OR REPLACE FUNCTION update_table(table_id INT, new_status BOOLEAN, new_id_bill INT)
-RETURNS VOID AS $$
-BEGIN
-    UPDATE Table_
-    SET status = new_status, ID_Bill = new_id_bill
-    WHERE ID_Table = table_id;
-END;
-$$ LANGUAGE plpgsql;
 
 ##Update employee
 
