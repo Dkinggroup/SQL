@@ -131,9 +131,9 @@ INSERT INTO Bill_Line (ID_Bill, ID_Food, Quantity) VALUES (19, 18, 1);
 INSERT INTO Bill_Line (ID_Bill, ID_Food, Quantity) VALUES (20, 19, 1);
 INSERT INTO Bill_Line (ID_Bill, ID_Food, Quantity) VALUES (20, 20, 2);
 
-INSERT INTO Shift (Date_Shift, Time_Start, Time_End) VALUES ('2024-06-01', '08:00', '14:00');
-INSERT INTO Shift (Date_Shift, Time_Start, Time_End) VALUES ('2024-06-01', '14:00', '20:00');
-INSERT INTO Shift (Date_Shift, Time_Start, Time_End) VALUES ('2024-06-01', '20:00', '23:59');
+INSERT INTO Shift (Date_Shift, Start_Time, End_Time) VALUES ('2024-06-01', '08:00', '14:00');
+INSERT INTO Shift (Date_Shift, Start_Time, End_Time) VALUES ('2024-06-01', '14:00', '20:00');
+INSERT INTO Shift (Date_Shift, Start_Time, End_Time) VALUES ('2024-06-01', '20:00', '23:59');
 
 
 INSERT INTO Employee (Name_Employee, Phone, Email, CCCD) VALUES ('John Doe', '1234567890', 'johndoe@example.com', 'CCCD001');
