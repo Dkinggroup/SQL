@@ -110,14 +110,24 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION shift_date()
 RETURNS VOID AS $$
 DECLARE
+    c_cursor CURSOR FOR SELECT Date_Shift FROM Shift;
     ca RECORD;
+    new_date DATE;
 BEGIN
-    FOR ca IN
-        SELECT * FROM Shift
+    OPEN c_cursor;
+    
     LOOP
-        INSERT INTO Shift (Date_Shift, Time_Start, Time_End, Work)
-        VALUES (ca.Date_Shift + INTERVAL '1 day', ca.Time_Start, ca.Time_End, ca.Work);
+        FETCH c_cursor INTO ca;
+        EXIT WHEN NOT FOUND;
+        
+        new_date := ca.Date_Shift + INTERVAL '1 day';
+        
+        UPDATE Shift
+        SET Date_Shift = new_date
+        WHERE CURRENT OF c_cursor;
     END LOOP;
+    
+    CLOSE c_cursor;
 END;
 $$ LANGUAGE plpgsql;
 
