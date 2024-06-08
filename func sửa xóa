@@ -1,10 +1,10 @@
 ##Update Shift
 
-CREATE OR REPLACE FUNCTION update_shift(shift_id INT, new_date_shift DATE, new_time_shift TIME)
+CREATE OR REPLACE FUNCTION update_shift(shift_id INT, start_time_new TIME, end_time_new TIME)
 RETURNS VOID AS $$
 BEGIN
     UPDATE Shift
-    SET Date_Shift = new_date_shift, Time_Shift = new_time_shift
+    SET Start_Time = start_time_new, End_Time = end_time_new
     WHERE ID_Shift = shift_id;
 END;
 $$ LANGUAGE plpgsql;
