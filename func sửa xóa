@@ -107,15 +107,124 @@ $$ LANGUAGE plpgsql;
 
 ##Thêm 1 ngày vào date shift
 
-CREATE OR REPLACE FUNCTION 1_date_shift()
+CREATE OR REPLACE FUNCTION 1_shift_date()
 RETURNS VOID AS $$
+DECLARE
+    ca RECORD;
 BEGIN
-    UPDATE Shift
-    SET Date_Shift = Date_Shift + INTERVAL '1 day';
+    FOR ca IN
+        SELECT * FROM Shift
+    LOOP
+        INSERT INTO Shift (Date_Shift, Time_Start, Time_End, Work)
+        VALUES (ca.Date_Shift + INTERVAL '1 day', ca.Time_Start, ca.Time_End, ca.Work);
+    END LOOP;
 END;
 $$ LANGUAGE plpgsql;
 
-##
+
+##Update đã thanh toán
+
+CREATE OR REPLACE FUNCTION cap_nhat_trang_thai_thanh_toan(id_bill INT)
+RETURNS VOID AS $$
+BEGIN
+    UPDATE Bill
+    SET Purchase_Status = 'Paid'
+    WHERE ID_Bill = id_bill;
+END;
+$$ LANGUAGE plpgsql;
+
+##Tính tổng tiền hóa đơn
+
+CREATE OR REPLACE FUNCTION tinh_tong_tien_hoa_don(bill_id INT)
+RETURNS NUMERIC AS $$
+DECLARE
+    tong_tien NUMERIC := 0;
+    item RECORD;
+BEGIN
+    FOR item IN
+        SELECT bl.Quantity, f.Price
+        FROM Bill_Line bl
+        JOIN Food f ON bl.ID_Food = f.ID_Food
+        WHERE bl.ID_Bill = bill_id
+    LOOP
+        tong_tien := tong_tien + (item.Quantity * item.Price);
+    END LOOP;
+    RETURN tong_tien;
+END;
+$$ LANGUAGE plpgsql;
+
+
+##Tổng doanh thu ngày
+
+CREATE OR REPLACE FUNCTION tong_doanh_thu_ngay(ngay DATE)
+RETURNS NUMERIC AS $$
+DECLARE
+    tong_doanh_thu NUMERIC := 0;
+    hoa_don RECORD;
+BEGIN
+    FOR hoa_don IN
+        SELECT ID_Bill
+        FROM Bill
+        WHERE Date_Order = ngay
+        AND status_bill = 'true'
+    LOOP
+        tong_doanh_thu := tong_doanh_thu + tinh_tong_tien_hoa_don(hoa_don.ID_Bill);
+    END LOOP;
+    RETURN tong_doanh_thu;
+END;
+$$ LANGUAGE plpgsql;
+
+##Tổng doanh thu tuần
+
+CREATE OR REPLACE FUNCTION doanh_thu_tuan()
+RETURNS TABLE (tuan DATE, doanh_thu NUMERIC) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DATE_TRUNC('week', Date_Order) AS tuan, SUM(tinh_tong_tien_hoa_don(ID_Bill)) AS doanh_thu
+    FROM Bill
+    WHERE status_bill = 'true'
+    GROUP BY DATE_TRUNC('week', Date_Order)
+    ORDER BY tuan;
+END;
+$$ LANGUAGE plpgsql;
+
+##Tổng doanh thu tháng
+
+CREATE OR REPLACE FUNCTION doanh_thu_thang()
+RETURNS TABLE (thang DATE, doanh_thu NUMERIC) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT DATE_TRUNC('month', Date_Order) AS thang, SUM(tinh_tong_tien_hoa_don(ID_Bill)) AS doanh_thu
+    FROM Bill
+    WHERE status_bill = 'true'
+    GROUP BY DATE_TRUNC('month', Date_Order)
+    ORDER BY thang;
+END;
+$$ LANGUAGE plpgsql;
+
+##Tổng số giờ làm của 1 nhân viên trong 1 khoảng thời gian
+
+CREATE OR REPLACE FUNCTION tinh_tong_gio_lam_viec_trong_khoang_thoi_gian(employee_id INT, start_date DATE, end_date DATE)
+RETURNS INTERVAL AS $$
+DECLARE
+    tong_gio INTERVAL := '0 hours';
+    ca RECORD;
+BEGIN
+    FOR ca IN
+        SELECT s.Time_Start, s.Time_End
+        FROM Schedule sc
+        JOIN Shift s ON sc.ID_Shift = s.ID_Shift
+        WHERE sc.ID_Employee = id_employee AND s.Date_Shift BETWEEN start_date AND end_date
+    LOOP
+        tong_gio := tong_gio + (ca.Time_End - ca.Time_Start);
+    END LOOP;
+    RETURN tong_gio;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
 
 
 
