@@ -1,0 +1,27 @@
+CREATE INDEX idx_food_category ON Food(ID_Category);
+CREATE INDEX idx_bill_customer ON Bill(ID_Customer);
+CREATE INDEX idx_bill_line_bill ON Bill_Line(ID_Bill);
+CREATE INDEX idx_bill_line_food ON Bill_Line(ID_Food);
+CREATE INDEX idx_table_bill ON Table_(ID_Bill);
+CREATE INDEX idx_schedule_employee ON Schedule(ID_Employee);
+CREATE INDEX idx_schedule_shift ON Schedule(ID_Shift);
+
+
+CREATE INDEX idx_account_score ON Account(Score);
+CREATE INDEX idx_customer_phone ON Customer(Phone);
+CREATE INDEX idx_bill_status_bill ON Bill(Status_Bill);
+
+CREATE INDEX idx_bill_date_order ON Bill(Date_Order);
+
+CREATE OR REPLACE FUNCTION AddShiftsForDay(
+    p_Date_Shift DATE
+) RETURNS VOID AS $$
+BEGIN
+    -- Thêm ca làm việc vào các thời điểm cố định trong ngày
+    INSERT INTO Shift (Date_Shift, Start_Time, End_Time)
+    VALUES (p_Date_Shift, '07:00:00', '11:00:00'),
+           (p_Date_Shift, '12:00:00', '16:00:00'),
+           (p_Date_Shift, '17:00:00', '21:00:00');
+END;
+$$ LANGUAGE plpgsql;
+
