@@ -15,7 +15,8 @@ CREATE TABLE Customer(
 	ID_Customer SERIAL PRIMARY KEY NOT NULL,
 	Name_Customer VARCHAR(50) NOT NULL,
 	Phone VARCHAR(16) NOT NULL,
-	status BOOLEAN
+	status BOOLEAN,
+	FOREIGN KEY (Phone) REFERENCES Account(Phone)
 );
 
 CREATE TABLE Bill(
@@ -44,11 +45,8 @@ CREATE TABLE Table_(
 );
 
 CREATE TABLE Account(
-	Name_Account VARCHAR(100) NOT NULL,
-	Phone VARCHAR(16) NOT NULL,
-	Score INT DEFAULT 0,
-	PRIMARY KEY(Phone,Name_Account),
-	FOREIGN KEY (Phone) REFERENCES Customer(Phone)
+	Phone VARCHAR(16) UNIQUE NOT NULL,
+	Score INT DEFAULT 0
 );
 
 CREATE TABLE Employee(
