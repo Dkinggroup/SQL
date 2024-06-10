@@ -1,0 +1,55 @@
+INSERT INTO public.food (name_food,price,id_category) VALUES
+	 ('Coca Cola',15000.0,5),
+	 ('Pepsi',15000.0,9),
+	 ('Orange Juice',30000.0,4),
+	 ('Apple Juice',30000.0,5),
+	 ('Mango Smoothie',50000.0,4),
+	 ('Strawberry Smoothie',50000.0,1),
+	 ('Red Bull',20000.0,7),
+	 ('Monster Energy',25000.0,9),
+	 ('Green Tea',10000.0,9),
+	 ('Black Coffee',15000.0,6);
+INSERT INTO public.food (name_food,price,id_category) VALUES
+	 ('Latte',40000.0,4),
+	 ('Chocolate Milkshake',45000.0,2),
+	 ('Mineral Water',5000.0,9),
+	 ('Sparkling Water',10000.0,8),
+	 ('Beer',35000.0,6),
+	 ('Wine',120000.0,2),
+	 ('Lemonade',20000.0,1),
+	 ('Iced Tea',15000.0,8),
+	 ('Hot Chocolate',35000.0,7),
+	 ('Espresso',30000.0,3);
+INSERT INTO public.food (name_food,price,id_category) VALUES
+	 ('Cappuccino',40000.0,5),
+	 ('Mocha',45000.0,5),
+	 ('Vanilla Milkshake',45000.0,9),
+	 ('Banana Smoothie',50000.0,6),
+	 ('Pineapple Juice',35000.0,7),
+	 ('Grape Juice',30000.0,5),
+	 ('Tomato Juice',30000.0,8),
+	 ('Carrot Juice',30000.0,4),
+	 ('Watermelon Smoothie',50000.0,5),
+	 ('Coconut Water',20000.0,7);
+INSERT INTO public.food (name_food,price,id_category) VALUES
+	 ('Peach Tea',25000.0,1),
+	 ('Almond Milk',30000.0,3),
+	 ('Soy Milk',30000.0,1),
+	 ('Protein Shake',55000.0,1),
+	 ('Matcha Latte',50000.0,2),
+	 ('Butterbeer',60000.0,4),
+	 ('Horchata',35000.0,7),
+	 ('Kombucha',40000.0,6),
+	 ('Root Beer',25000.0,6),
+	 ('Fanta',15000.0,4);
+INSERT INTO public.food (name_food,price,id_category) VALUES
+	 ('Sprite',15000.0,2),
+	 ('Ginger Ale',20000.0,3),
+	 ('Tonic Water',15000.0,6),
+	 ('Club Soda',10000.0,8),
+	 ('Herbal Tea',20000.0,3),
+	 ('Chai Latte',40000.0,8),
+	 ('Turmeric Latte',45000.0,3),
+	 ('Sangria',50000.0,3),
+	 ('Cranberry Juice',35000.0,9),
+	 ('Lime Juice',30000.0,1);
