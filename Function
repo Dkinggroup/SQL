@@ -75,17 +75,35 @@ $$ LANGUAGE plpgsql;
 
 SELECT AddShiftsForDay('2024-06-07');
 
-## Thêm customer 
-CREATE OR REPLACE FUNCTION Add_Customer(
-    p_Name_Customer VARCHAR(50),
-    p_Phone VARCHAR(16),
-    p_Status BOOLEAN
-)
-RETURNS VOID AS 
-$$
+## Thêm customer + bill
+
+-- Create the function to add a customer and a bill
+CREATE OR REPLACE FUNCTION add_customer_and_bill(
+    p_name VARCHAR,
+    p_phone VARCHAR,
+    p_status BOOLEAN,
+    p_status_bill BOOLEAN,
+    p_date_order DATE,
+    p_time_order TIME
+) RETURNS VOID AS $$
+DECLARE
+    v_id_customer INT;
 BEGIN
-    INSERT INTO Customer (Name_Customer, Phone, Status)
-    VALUES (p_Name_Customer, p_Phone, p_Status); -- Sử dụng giá trị được truyền vào tham số
+    -- Check if the phone number already exists in the Customer table
+    SELECT ID_Customer INTO v_id_customer
+    FROM Customer
+    WHERE Phone = p_phone;
+
+    -- If the phone number does not exist, insert the customer
+    IF NOT FOUND THEN
+        INSERT INTO Customer (Name_Customer, Phone, status)
+        VALUES (p_name, p_phone, p_status)
+        RETURNING ID_Customer INTO v_id_customer;
+    END IF;
+
+    -- Insert the bill for the customer
+    INSERT INTO Bill (Status_Bill, Date_Order, Time_Order, ID_Customer)
+    VALUES (p_status_bill, p_date_order, p_time_order, v_id_customer);
 END;
 $$ LANGUAGE plpgsql;
 
