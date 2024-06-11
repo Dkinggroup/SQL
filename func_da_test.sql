@@ -515,7 +515,7 @@ $$ language plpgsql;
 select * from pre_price(10001)
 --cf test of
 ----------------------------------------------------------------------------------------------
---top 5 mua nhieu nhat cua khach
+😊--top 5 mua nhieu nhat cua khach
 create or replace function top5_food_cus(in cus_phone varchar)
 returns table(
 	food_name varchar(100),
