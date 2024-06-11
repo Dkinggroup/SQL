@@ -392,8 +392,7 @@ $$ LANGUAGE plpgsql;
 select sum_month(1, 2024)
 --cf test ok
 ------------------------------------------------------------------------------------------------------------------------
---Tổng số giờ làm của 1 nhân viên trong 1 khoảng thời gian
---cl nay chac del chay dc dau =))))
+😊--Tổng số giờ làm của 1 nhân viên trong 1 khoảng thời gian
 CREATE OR REPLACE FUNCTION tinh_tong_gio_lam_viec_trong_khoang_thoi_gian(employee_id INT, start_date DATE, end_date DATE)
 RETURNS INTERVAL AS $$
 DECLARE
