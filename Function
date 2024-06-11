@@ -107,21 +107,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-## Tạo Account nếu có nhu cầu 
-CREATE OR REPLACE FUNCTION AddAccountIfNotExists(
-    p_Customer_Phone VARCHAR(16),
-    p_Name_Account VARCHAR(100)
-) RETURNS VOID AS $$
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM Account WHERE Phone = p_Customer_Phone) THEN
-        -- Nếu không tồn tại, thêm tài khoản mới
-        INSERT INTO Account (Name_Account, Phone)
-        VALUES (p_Name_Account, p_Customer_Phone);
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
-
-SELECT AddAccountIfNotExists('1234567890', 'New_Account');
 
 ## Add Bill Line
 
