@@ -1,27 +1,46 @@
-CREATE INDEX idx_food_category ON Food(ID_Category);
-CREATE INDEX idx_bill_customer ON Bill(ID_Customer);
-CREATE INDEX idx_bill_line_bill ON Bill_Line(ID_Bill);
-CREATE INDEX idx_bill_line_food ON Bill_Line(ID_Food);
-CREATE INDEX idx_table_bill ON Table_(ID_Bill);
-CREATE INDEX idx_schedule_employee ON Schedule(ID_Employee);
-CREATE INDEX idx_schedule_shift ON Schedule(ID_Shift);
+EXPLAIN ANALYZE
+SELECT
+    cat.Name_Category,
+    SUM(f.Price * bl.Quantity) AS Total_Revenue
+FROM
+    Bill_Line bl
+JOIN
+    Food f ON bl.ID_Food = f.ID_Food
+JOIN
+    Category cat ON f.ID_Category = cat.ID_Category
+GROUP BY
+    cat.Name_Category
+ORDER BY
+    Total_Revenue DESC;
 
+CREATE INDEX idx_bill_line_food_id ON Bill_Line(ID_Food);
+CREATE INDEX idx_food_category_id ON Food(ID_Category);
+CREATE INDEX idx_food_id ON Food(ID_Food);
+CREATE INDEX idx_category_name ON Category(Name_Category);
 
-CREATE INDEX idx_account_score ON Account(Score);
-CREATE INDEX idx_customer_phone ON Customer(Phone);
-CREATE INDEX idx_bill_status_bill ON Bill(Status_Bill);
-
-CREATE INDEX idx_bill_date_order ON Bill(Date_Order);
-
-CREATE OR REPLACE FUNCTION AddShiftsForDay(
-    p_Date_Shift DATE
-) RETURNS VOID AS $$
-BEGIN
-    -- Thêm ca làm việc vào các thời điểm cố định trong ngày
-    INSERT INTO Shift (Date_Shift, Start_Time, End_Time)
-    VALUES (p_Date_Shift, '07:00:00', '11:00:00'),
-           (p_Date_Shift, '12:00:00', '16:00:00'),
-           (p_Date_Shift, '17:00:00', '21:00:00');
-END;
-$$ LANGUAGE plpgsql;
-
+EXPLAIN ANALYZE
+SELECT
+    b.ID_Bill,
+    b.Status_Bill,
+    b.Date_Order,
+    b.Time_Order,
+    c.ID_Customer,
+    c.Name_Customer,
+    c.Phone,
+    f.ID_Food,
+    f.Name_Food,
+    f.Price,
+    bl.Quantity,
+    (f.Price * bl.Quantity) AS Total_Price
+FROM
+    Bill b
+JOIN
+    Customer c ON b.ID_Customer = c.ID_Customer
+JOIN
+    Bill_Line bl ON b.ID_Bill = bl.ID_Bill
+JOIN
+    Food f ON bl.ID_Food = f.ID_Food
+WHERE
+    b.Date_Order BETWEEN '2024-01-06' AND '2024-01-10'
+ORDER BY
+    b.Date_Order, b.Time_Order;
