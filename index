@@ -17,6 +17,8 @@ CREATE INDEX idx_bill_line_food_id ON Bill_Line(ID_Food);
 CREATE INDEX idx_food_category_id ON Food(ID_Category);
 CREATE INDEX idx_food_id ON Food(ID_Food);
 CREATE INDEX idx_category_name ON Category(Name_Category);
+CREATE INDEX idx_bill_date_order ON Bill(Date_Order);
+CREATE INDEX idx_bill_line_bill_id ON Bill_Line(ID_Bill);
 
 EXPLAIN ANALYZE
 SELECT
